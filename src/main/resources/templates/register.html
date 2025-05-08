@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>회원가입</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .form-container {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 350px;
+    }
+
+    .form-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-container input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 12px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .form-container button {
+      width: 100%;
+      padding: 10px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .error {
+      color: red;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .success {
+      color: green;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .link {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .link a {
+      text-decoration: none;
+      color: #3498db;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<div class="form-container">
+  <h2>회원가입</h2>
+  <form id="registerForm">
+    <input type="text" id="name" placeholder="이름" required>
+    <input type="email" id="email" placeholder="이메일" required>
+    <input type="password" id="password" placeholder="비밀번호" required>
+    <input type="text" id="role" placeholder="역할 (예: USER)" required>
+    <button type="submit">가입하기</button>
+  </form>
+  <div id="resultMessage"></div>
+  <div class="link">
+    <a href="/login">이미 계정이 있으신가요? 로그인</a>
+  </div>
+</div>
+
+<script>
+  $('#registerForm').on('submit', function (e) {
+    e.preventDefault();
+
+    const data = {
+      name: $('#name').val(),
+      email: $('#email').val(),
+      password: $('#password').val(),
+      role: $('#role').val()
+    };
+
+    $.ajax({
+      url: '/api/register',
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify(data),
+      success: function (res) {
+        $('#resultMessage')
+                .removeClass('error')
+                .addClass('success')
+                .text("회원가입 완료! 메인으로 이동합니다.");
+        setTimeout(() => {
+          window.location.href = '/main';
+        }, 1500);
+      },
+      error: function (xhr) {
+        $('#resultMessage')
+                .removeClass('success')
+                .addClass('error')
+                .text("회원가입 실패: " + xhr.responseText);
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

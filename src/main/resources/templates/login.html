@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인</title>
+    <style>
+        body { font-family: Arial; background: #f0f0f0; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .box { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px; }
+        .box input { width: 100%; padding: 10px; margin: 10px 0; }
+        .box button { width: 100%; padding: 10px; background: #3498db; color: white; border: none; border-radius: 5px; }
+        .error { color: red; text-align: center; }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<div class="box">
+    <h2>로그인</h2>
+    <form id="loginForm">
+        <input type="email" id="email" placeholder="이메일" required>
+        <input type="password" id="password" placeholder="비밀번호" required>
+        <button type="submit">로그인</button>
+    </form>
+    <div id="error" class="error"></div>
+    <p style="text-align: center;"><a href="/register">회원가입</a></p>
+</div>
+
+<script>
+    $('#loginForm').on('submit', function (e) {
+        e.preventDefault();
+        const data = {
+            email: $('#email').val(),
+            password: $('#password').val()
+        };
+        $.ajax({
+            url: '/api/login',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (res) {
+                if (res === 'SUCCESS') {
+                    window.location.href = '/main';
+                } else {
+                    $('#error').text('이메일 또는 비밀번호가 틀렸습니다.');
+                }
+            },
+            error: function () {
+                $('#error').text('로그인 실패. 잠시 후 다시 시도하세요.');
+            }
+        });
+    });
+</script>
+</body>
+</html>

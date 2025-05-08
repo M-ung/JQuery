@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Main</title>
+</head>
+<body>
+<h2>환영합니다, <span th:text="${member.name}">사용자</span>님!</h2>
+<p>이메일: <span th:text="${member.email}"></span></p>
+<form id="logoutForm" method="post">
+  <button type="submit">로그아웃</button>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $('#logoutForm').on('submit', function(e) {
+    e.preventDefault();
+    $.post('/api/logout', function() {
+      location.href = '/login';
+    });
+  });
+</script>
+</body>
+</html>
