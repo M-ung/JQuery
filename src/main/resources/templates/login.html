@@ -12,42 +12,42 @@
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-<body>
-<div class="box">
-    <h2>로그인</h2>
-    <form id="loginForm">
-        <input type="email" id="email" placeholder="이메일" required>
-        <input type="password" id="password" placeholder="비밀번호" required>
-        <button type="submit">로그인</button>
-    </form>
-    <div id="error" class="error"></div>
-    <p style="text-align: center;"><a href="/register">회원가입</a></p>
-</div>
+    <body>
+        <div class="box">
+            <h2>로그인</h2>
+            <form id="loginForm">
+                <input type="email" id="email" placeholder="이메일" required>
+                <input type="password" id="password" placeholder="비밀번호" required>
+                <button type="submit">로그인</button>
+            </form>
+            <div id="error" class="error"></div>
+            <p style="text-align: center;"><a href="/register">회원가입</a></p>
+        </div>
 
-<script>
-    $('#loginForm').on('submit', function (e) {
-        e.preventDefault();
-        const data = {
-            email: $('#email').val(),
-            password: $('#password').val()
-        };
-        $.ajax({
-            url: '/api/login',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(data),
-            success: function (res) {
-                if (res === 'SUCCESS') {
-                    window.location.href = '/main';
-                } else {
-                    $('#error').text('이메일 또는 비밀번호가 틀렸습니다.');
-                }
-            },
-            error: function () {
-                $('#error').text('로그인 실패. 잠시 후 다시 시도하세요.');
-            }
-        });
-    });
-</script>
-</body>
+        <script>
+            $('#loginForm').on('submit', function (e) {
+                e.preventDefault();
+                const data = {
+                    email: $('#email').val(),
+                    password: $('#password').val()
+                };
+                $.ajax({
+                    url: '/api/login',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: function (res) {
+                        if (res === 'SUCCESS') {
+                            window.location.href = '/main';
+                        } else {
+                            $('#error').text('이메일 또는 비밀번호가 틀렸습니다.');
+                        }
+                    },
+                    error: function () {
+                        $('#error').text('로그인 실패. 잠시 후 다시 시도하세요.');
+                    }
+                });
+            });
+        </script>
+    </body>
 </html>
